@@ -255,5 +255,8 @@ streamlit run app/ui.py
 - Add monitoring and logging
 
 ---
+## 👩‍💻 Author
 
-*Built as an end-to-end Generative AI + Data Science portfolio project.*
+**Supriya Kamthekar**
+
+Data Scientist | Machine Learning Enthusiast | Backend Developer
