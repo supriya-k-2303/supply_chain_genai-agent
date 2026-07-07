@@ -115,6 +115,20 @@ The system automatically decides whether a question requires:
 | **Database / Storage** | ChromaDB (Vector Database), Local CSV Dataset |
 
 ---
+## 🛠️ Tech Stack (Supply Chain GenAI Agent)
+
+1. **Programming Language:** Python 3.11
+2. **LLM:** Ollama + Qwen2.5:3B
+3. **GenAI Framework:** LangChain
+4. **RAG Pipeline:** LangChain RAG, PyPDFLoader, RecursiveCharacterTextSplitter
+5. **Embeddings:** Sentence Transformers (`all-MiniLM-L6-v2`)
+6. **Vector Database:** ChromaDB
+7. **Backend API:** FastAPI + Uvicorn
+8. **Frontend UI:** Streamlit
+9. **Data Processing:** Pandas
+10. **Data Sources:** Supply Chain PDFs + CSV Dataset
+11. **Version Control:** Git + GitHub
+12. **Environment Management:** Python Virtual Environment (`venv`)
 
 ## 📂 Project Structure
 
