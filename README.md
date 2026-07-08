@@ -1,6 +1,6 @@
 # 🚚 Supply Chain GenAI Assistant
 
-An AI-powered Supply Chain Assistant that combines **Retrieval Augmented Generation (RAG)**, **structured data analytics**, and **LLM-based reasoning** to answer business questions from supply chain documents and operational datasets.
+An AI-powered Supply Chain Assistant that combines **Retrieval Augmented Generation (RAG)**, **structured data analytics**, and **LLM-powered answer generation** to answer business questions from supply chain documents and operational datasets.
 
 The system can answer questions related to:
 
@@ -25,18 +25,28 @@ The system can answer questions related to:
             FastAPI Backend
                      │
                      ▼
-             AI Agent Router
+          Rule-Based Agent Router
                      │
         ┌────────────┴────────────┐
         ▼                         ▼
    RAG Pipeline           Data Analytics Tool
         │                         │
         ▼                         ▼
-    ChromaDB                 CSV Dataset
+ Supply Chain PDFs             CSV Dataset
         │                         │
         ▼                         ▼
- Supply Chain PDFs            Pandas
-        │                         │
+    PyPDFLoader                Pandas
+        │                         |
+        ▼                         |
+    Text Splitter                 |
+        │                         |
+        ▼                         |     
+  Ollama Embeddings               |
+   (nomic-embed-text)             |
+        │                         |
+        ▼                         |
+     ChromaDB                     |
+        │                         |
         └────────────┬────────────┘
                       ▼
                  Ollama LLM
@@ -52,7 +62,8 @@ The system can answer questions related to:
 ### 1. Retrieval Augmented Generation (RAG)
 
 - Loads supply chain PDF documents
-- Creates embeddings
+- Splits documents into chunks using a text splitter
+- Creates embeddings using Ollama Embeddings (nomic-embed-text)
 - Stores vectors in ChromaDB
 - Retrieves relevant information based on user questions
 - Generates context-aware answers using an LLM
@@ -84,9 +95,9 @@ The assistant can answer:
 
 ---
 
-### 3. AI Agent Routing
+### 3. Rule-Based Agent Routing
 
-The system automatically decides whether a question requires:
+The system uses a rule-based router (`choose_tool()`) to decide whether a question requires:
 
 - Document retrieval (RAG)
 - Structured data analysis
@@ -98,6 +109,8 @@ The system automatically decides whether a question requires:
 "How many deliveries were delayed?"  →  Data Analytics Tool
 ```
 
+> **Note:** Routing is currently rule-based (keyword/pattern matching), not LLM-based tool calling. See "Future Improvements" for planned upgrades.
+
 ---
 
 ## 🛠️ Technology Stack
@@ -106,22 +119,23 @@ The system automatically decides whether a question requires:
 |---|---|
 | **Programming Language** | Python 3.11 |
 | **Large Language Model** | Ollama, Qwen2.5:3B |
-| **Generative AI Framework** | LangChain components, Custom AI Agent Router |
-| **Retrieval Augmented Generation** | Sentence Transformers, ChromaDB Vector Database |
-| **Embedding Model** | all-MiniLM-L6-v2 |
+| **Generative AI Framework** | LangChain, Custom Rule-Based Router |
+| **Retrieval Augmented Generation** | LangChain + ChromaDB + Ollama Embeddings |
+| **Embedding Model** | Ollama Embeddings (nomic-embed-text) |
 | **Backend API** | FastAPI, Uvicorn |
 | **Frontend** | Streamlit |
 | **Data Processing** | Pandas, CSV Analytics |
 | **Database / Storage** | ChromaDB (Vector Database), Local CSV Dataset |
 
 ---
+
 ## 🛠️ Tech Stack (Supply Chain GenAI Agent)
 
 1. **Programming Language:** Python 3.11
 2. **LLM:** Ollama + Qwen2.5:3B
 3. **GenAI Framework:** LangChain
 4. **RAG Pipeline:** LangChain RAG, PyPDFLoader, RecursiveCharacterTextSplitter
-5. **Embeddings:** Sentence Transformers (`all-MiniLM-L6-v2`)
+5. **Embeddings:** Ollama Embeddings (nomic-embed-text)
 6. **Vector Database:** ChromaDB
 7. **Backend API:** FastAPI + Uvicorn
 8. **Frontend UI:** Streamlit
@@ -129,6 +143,8 @@ The system automatically decides whether a question requires:
 10. **Data Sources:** Supply Chain PDFs + CSV Dataset
 11. **Version Control:** Git + GitHub
 12. **Environment Management:** Python Virtual Environment (`venv`)
+
+---
 
 ## 📂 Project Structure
 
@@ -141,10 +157,9 @@ final_agent/
 │   ├── graph.py                 # Agent routing logic
 │   ├── rag.py                   # RAG pipeline
 │   ├── tools.py                 # Data analytics tools
-│   │
-│   ├── data/
-│   │   └── supply_chain_enriched.csv
-│   │
+│
+├── data/
+│   ├── supply_chain_enriched.csv
 │   └── pdf/
 │       ├── inventory_policy.pdf
 │       ├── supplier_policy.pdf
@@ -237,7 +252,7 @@ streamlit run app/ui.py
 - Vector Databases
 - Embeddings
 - LLM Integration
-- AI Agent Design
+- Rule-Based Agent Design
 - Supply Chain Analytics
 - REST API Development
 - Data Processing
@@ -255,6 +270,7 @@ streamlit run app/ui.py
 - Add monitoring and logging
 
 ---
+
 ## 👩‍💻 Author
 
 **Supriya Kamthekar**
