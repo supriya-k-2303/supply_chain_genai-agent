@@ -16,39 +16,19 @@ vectorstore = Chroma(
 )
 
 print("Retriever ready.")
+
+
 def retrieve_context(question: str):
 
-    print("Creating retriever...")
-
-    retriever = vectorstore.as_retriever(
-        search_kwargs={"k": 3}
+    docs = vectorstore.similarity_search(
+        question,
+        k=5
     )
 
-    print("Retriever created")
+    if not docs:
+        return "No relevant context found."
 
-    docs = vectorstore.similarity_search(question, k=3)
-
-    print("Similarity search completed")
-
-    if len(docs) == 0:
-        return "No documents found."
-
-    return "\n\n".join(doc.page_content for doc in docs)
-
-
-# def retrieve_context(question: str):
-
-#     print("Generating query embedding...")
-
-#     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-
-#     print("Calling retriever...")
-
-#     docs = retriever.invoke(question)
-
-#     print("Retriever finished.")
-
-#     if not docs:
-#         return "No relevant information found."
-
-#     return "\n\n".join(doc.page_content for doc in docs)
+    return "\n\n".join(
+        doc.page_content
+        for doc in docs
+    )

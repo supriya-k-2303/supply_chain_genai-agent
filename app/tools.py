@@ -1,15 +1,10 @@
 import pandas as pd
 
-
 CSV_PATH = "data/supply_chain_enriched.csv"
 
 
 def load_supply_chain_data():
-
-    df = pd.read_csv(CSV_PATH)
-
-    return df
-
+    return pd.read_csv(CSV_PATH)
 
 
 def get_delivery_context():
@@ -29,8 +24,7 @@ def get_delivery_context():
         2
     )
 
-
-    context = f"""
+    return f"""
 Delivery Analysis
 
 Total Records:
@@ -41,19 +35,14 @@ Total Delayed Deliveries:
 
 Delayed Percentage:
 {percentage}%
-
 """
-
-    return context
-
 
 
 def get_inventory_context():
 
     df = load_supply_chain_data()
 
-
-    context = f"""
+    return f"""
 Inventory Analysis
 
 Total Products:
@@ -68,19 +57,14 @@ Average Inventory Level:
 Top Product Categories:
 
 {df["ProductCategory"].value_counts().head(10).to_string()}
-
 """
-
-    return context
-
 
 
 def get_supplier_context():
 
     df = load_supply_chain_data()
 
-
-    context = f"""
+    return f"""
 Supplier Analysis
 
 Total Suppliers:
@@ -92,19 +76,14 @@ Average Supplier Rating:
 Top Suppliers:
 
 {df["SupplierName"].value_counts().head(5).to_string()}
-
 """
-
-    return context
-
 
 
 def get_sales_context():
 
     df = load_supply_chain_data()
 
-
-    context = f"""
+    return f"""
 Sales Analysis
 
 Total Sales:
@@ -115,7 +94,4 @@ Average Order Value:
 
 Total Orders:
 {df["OrderID"].nunique()}
-
 """
-
-    return context
